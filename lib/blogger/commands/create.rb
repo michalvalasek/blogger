@@ -10,7 +10,8 @@ module Blogger
       def initialize(options)
         @options = options
         @entry = {}
-        @weblog_dir = "ABSOLUTE_PATH_HERE"
+        @weblog_dir = ENV["WEBLOG_DIR"] \
+          || abort("WEBLOG_DIR env var not set (it should be absolute path).")
       end
 
       def execute(input: $stdin, output: $stdout)
@@ -48,7 +49,7 @@ module Blogger
         g_add = "git add _data/weblog.json"
         g_commit = "git commit -m 'Update weblog.'"
         g_push = "git push -u origin master"
-        cmd.run "(cd #{@weblog_dir}; #{g_add}; #{g_commit})"
+        cmd.run "(cd #{@weblog_dir}; #{g_add}; #{g_commit}; #{g_push})"
       end
 
       def print_preview
